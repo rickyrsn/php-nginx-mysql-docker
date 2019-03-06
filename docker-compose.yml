@@ -1,0 +1,36 @@
+version: "3"
+services: 
+  phpfpm:
+    image: php:fpm
+    networks: 
+      - belakang
+    depends_on: 
+      - db
+    ports: 
+      - 9000:9000
+    volumes: 
+      - ./html:/usr/share/nginx/html
+  db:
+    image: mysql
+    command: 'mysql default-authentication-plugin=mysql_native_password'
+    networks: 
+      - belakang
+    ports: 
+      - 3306:3306
+    environment: 
+      - MYSQL_ROOT_PASSWORD=rootpassword
+  nginx:
+    build: './nginx/'
+    networks: 
+      - depan
+      - belakang
+    ports: 
+      - 80:80
+    volumes: 
+      - ./html:/usr/share/nginx/html
+    depends_on: 
+      - db
+      - phpfpm
+networks: 
+  depan:
+  belakang:
