@@ -1,7 +1,7 @@
 version: "3"
 services: 
   phpfpm:
-    image: php:fpm
+    build: './php/'
     networks: 
       - belakang
     depends_on: 
@@ -11,8 +11,8 @@ services:
     volumes: 
       - ./html:/usr/share/nginx/html
   db:
-    image: mysql
-    command: 'mysql default-authentication-plugin=mysql_native_password'
+    image: mysql:5.7
+    #command: 'mysql default-authentication-plugin=mysql_native_password'
     networks: 
       - belakang
     ports: 
